@@ -1,29 +1,30 @@
-import { pool } from "./database.js";
+import { pool } from "../config/database.js";
 import "./dotenv.js";
 import giftData from "../data/gifts.js";
+
 const createGiftsTable = async () => {
   const createTableQuery = `
     DROP TABLE IF EXISTS gifts;
-
     CREATE TABLE IF NOT EXISTS gifts (
-        id SERIAL PRIMARY KEY,
-        name VARCHAR(255) NOT NULL,
-        pricePoint VARCHAR(10) NOT NULL,
-        audience VARCHAR(255) NOT NULL,
-        image VARCHAR(255) NOT NULL,
-        description TEXT NOT NULL,
-        submittedBy VARCHAR(255) NOT NULL,
-        submittedOn TIMESTAMP NOT NULL
+      id SERIAL PRIMARY KEY,
+      name VARCHAR(255) NOT NULL,
+      pricePoint VARCHAR(10) NOT NULL,
+      audience VARCHAR(255) NOT NULL,
+      image VARCHAR(255) NOT NULL,
+      description TEXT NOT NULL,
+      submittedBy VARCHAR(255) NOT NULL,
+      submittedOn TIMESTAMP NOT NULL
     )
-        `;
+  `;
 
   try {
-    const res = await pool.query(createTableQuery);
+    await pool.query(createTableQuery);
     console.log("🎉 gifts table created successfully");
   } catch (err) {
     console.error("⚠️ error creating gifts table", err);
   }
 };
+
 const seedGiftsTable = async () => {
   await createGiftsTable();
 
